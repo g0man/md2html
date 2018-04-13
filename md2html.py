@@ -40,6 +40,10 @@ def parse_options(args=None, values=None):
             parser.print_usage()
             sys.exit(1)
         if not os.path.isfile(filename):
+            if arg == "output_file":
+                d = os.path.dirname(filename)
+                if d == '' or os.path.exists(d):
+                    continue
             print("invalid file name specified : %s %s " % (arg, filename))
             sys.exit(2)
 
