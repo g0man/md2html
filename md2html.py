@@ -55,6 +55,16 @@ def parse_options(args=None, values=None):
 
     return options
 
+def get_reading_minutes(filename):
+
+    with open(filename, "r") as f:
+        word_count = len(f.read())
+        print("word count: %d" % word_count)
+        f.close()
+
+        return int(word_count/700)
+
+    return 0
 
 def transfer(infile, outfile, cfgfile, headerfile, footerfile) :
     with open(cfgfile, "r") as f:
@@ -66,6 +76,7 @@ def transfer(infile, outfile, cfgfile, headerfile, footerfile) :
             data['__cmd_header_file__'] = headerfile
         if footerfile:
             data['__cmd_footer_file__'] = footerfile
+        data['READING_MINUTES'] = get_reading_minutes(infile)
 
         weixin = makeExtension(configs={'wxcfg' : data})
         markdown.markdownFromFile(input=infile, output=outfile, extensions=[weixin, "markdown.extensions.nl2br"])

@@ -32,7 +32,7 @@ class WeixinExtension(Extension):
         cfg = self.getConfig('wxcfg')
         # print("cfg:  %s" % cfg)
         if cfg :
-            md.preprocessors.add('readtime', CalcReadingTimePreprocessor(cfg), "<normalize_whitespace") 
+            # md.preprocessors.add('readtime', CalcReadingTimePreprocessor(cfg), "<normalize_whitespace") 
             md.postprocessors.add('header', HeaderPostprocessor(cfg), ">unescape") 
             md.postprocessors.add('payqrcode', FooterPostprocessor(cfg), ">header") 
 
