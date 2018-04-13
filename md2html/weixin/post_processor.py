@@ -1,6 +1,17 @@
 import os
 from markdown.postprocessors import Postprocessor
 
+def _get_snippet_filename(cfg, cmdkey, cmdpath, cfgkey):
+    filename = cfg.get(cmdkey)
+    if not filename :
+        cfg_path = cfg.get(cmdpath)
+
+        if cfg_path is None or cfg_path == '' :
+            filename = cfg.get(cfgkey)
+        else :
+            filename = os.path.join(cfg_path, cfg.get(cfgkey))
+    return filename
+
 class HeaderPostprocessor(Postprocessor):
 
     def __init__(self, cfg, *args, **kwargs):
@@ -8,8 +19,8 @@ class HeaderPostprocessor(Postprocessor):
         super(HeaderPostprocessor, self).__init__(*args, **kwargs)
 
     def run(self, root):
-        header = os.path.join("config", self.cfg.get("header"))
-        with open(header, "r") as f :
+        filename = _get_snippet_filename(self.cfg, "__cmd_header_file__", "__cmd_cfg_path__", "header")
+        with open(filename, "r") as f :
             reading_minutes = self.cfg.get('READING_MINUTES')
             print("reading minutes: %d" % reading_minutes)
             if reading_minutes < 1 :
@@ -28,9 +39,9 @@ class FooterPostprocessor(Postprocessor):
 
     def run(self, root):
         
-        filename = self.cfg.get("footer")
-        footer = os.path.join("config", filename)
-        with open(footer, "r") as f :
+        filename = _get_snippet_filename(self.cfg, "__cmd_footer_file__", "__cmd_cfg_path__", "footer")
+
+        with open(filename, "r") as f :
             root = root + f.read() 
             f.close()
         return root
