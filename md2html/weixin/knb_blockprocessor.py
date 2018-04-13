@@ -185,9 +185,11 @@ class BlockQuoteProcessor(BlockProcessor):
             ## michael.wu +++
         # Recursively parse block with blockquote as parent.
         # change parser state so blockquotes embedded in lists use p tags
-        self.parser.state.set('blockquote')
-        self.parser.parseChunk(quote, block)
-        self.parser.state.reset()
+        ## michael.wu --- disable the section
+        # self.parser.state.set('blockquote')
+        # self.parser.parseChunk(quote, block)
+        # self.parser.state.reset()
+        ## michael.wu +++
 
     def clean(self, line):
         """ Remove ``>`` from beginning of a line. """
