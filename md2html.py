@@ -7,6 +7,10 @@ import optparse
 import os
 import sys
 
+exe_path = os.path.dirname(sys.argv[0])
+exe_path = os.path.abspath(exe_path)
+sys.path.insert(0, os.path.join(exe_path, 'markdown'))
+
 import markdown
 
 import md2html

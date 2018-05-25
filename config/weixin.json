@@ -10,6 +10,9 @@
         "label" : "Copyright 吴尚智 and 井蛙惊梦人",
         "style" : "line-height: 25.6px; white-space: normal; border-left-width: 5px; border-left-color: rgb(38, 198, 218); margin-left: 32px; margin-right: 30px;"
     },
+    "img" : {
+        "style" : "box-shadow: rgb(170, 170, 170) 0px 0px 14px 0px; border-radius: 12px; width: auto !important; height: auto !important; visibility: visible !important;"
+    },
     "ol" : {
         "label" : "Copyright 吴尚智 and 井蛙惊梦人",
         "class" : "list-paddingleft-2",

@@ -6,11 +6,22 @@ from markdown.extensions import Extension
 from .knb_blockprocessor import (BlockQuoteProcessor, HashHeaderProcessor,
                                  OListProcessor, ParagraphProcessor,
                                  UListProcessor)
+from .mw_inlinepatterns import ImagePattern
 from .post_processor import FooterPostprocessor, HeaderPostprocessor
 from .pre_processor import CalcReadingTimePreprocessor
 
 logger = logging.getLogger('weixin/extension')
 
+
+NOBRACKET = r'[^\]\[]*'
+BRK = (
+    r'\[(' +
+    (NOBRACKET + r'(\[')*6 +
+    (NOBRACKET + r'\])*')*6 +
+    NOBRACKET + r')\]'
+)
+# ![alttxt](http://x.com/) or ![alttxt](<http://x.com/>)
+IMAGE_LINK_RE = r'\!' + BRK + r'\s*\(\s*(<.*?>|([^"\)\s]+\s*"[^"]*"|[^\)\s]*))\s*\)'
 
 class WeixinExtension(Extension):
     
@@ -41,6 +52,7 @@ class WeixinExtension(Extension):
             md.parser.blockprocessors['ulist'] = UListProcessor(md.parser, cfg)
             md.parser.blockprocessors['quote'] = BlockQuoteProcessor(md.parser, cfg)
             md.parser.blockprocessors['hashheader'] = HashHeaderProcessor(md.parser, cfg)
+            md.inlinePatterns["image_link"] = ImagePattern(IMAGE_LINK_RE, md, cfg)
         else :
             logger.warn("failed to get 'wxcfg' settings, do nothing.") 
 

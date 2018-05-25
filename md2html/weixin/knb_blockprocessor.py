@@ -310,6 +310,9 @@ class HashHeaderProcessor(BlockProcessor):
 class ParagraphProcessor(BlockProcessor):
     """ Process Paragraph blocks. """
 
+    # ![XXX ](https://
+    RE_IMG = re.compile(r'^\!\[.*\]\(http[s]?://')
+
     def __init__(self, parser, cfg):
         self.cfg = cfg
         super(ParagraphProcessor, self).__init__(parser)
@@ -348,6 +351,13 @@ class ParagraphProcessor(BlockProcessor):
                 # michael.wu changed ---
                 # p = util.etree.SubElement(parent, 'p')
                 # p.text = block.lstrip()
+                text = block.lstrip()
+                # if self.RE_IMG.match(text):
+                #     img_cfg = self.cfg.get("img")
+                #     img = helper.add_subelement_list(parent, img_cfg, ['p'])
+                #     img.text = text
+                #     pass
+                # else :
                 span = helper.add_subelement_list(parent, self.cfg, ['p', 'span'])
-                span.text = block.lstrip()
+                span.text = text
                 # michael.wu changed +++
